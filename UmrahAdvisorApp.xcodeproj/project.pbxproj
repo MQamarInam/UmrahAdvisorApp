@@ -6,6 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		52CAC1E02E62243300E0F71C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 52CAC1DF2E62243200E0F71C /* GoogleService-Info.plist */; };
+		52CAC1E42E62289100E0F71C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 52CAC1E32E62289100E0F71C /* FirebaseAuth */; };
+		52CAC1E62E62289C00E0F71C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 52CAC1E52E62289C00E0F71C /* FirebaseFirestore */; };
+		52CAC1E82E6228A100E0F71C /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 52CAC1E72E6228A100E0F71C /* FirebaseDatabase */; };
+		52CAC1EA2E6228A800E0F71C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 52CAC1E92E6228A800E0F71C /* FirebaseStorage */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		52CAC1C32E62207C00E0F71C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +35,7 @@
 		52CAC1B22E62207800E0F71C /* UmrahAdvisorApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UmrahAdvisorApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52CAC1C22E62207C00E0F71C /* UmrahAdvisorAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UmrahAdvisorAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		52CAC1CC2E62207C00E0F71C /* UmrahAdvisorAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UmrahAdvisorAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		52CAC1DF2E62243200E0F71C /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +61,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52CAC1E82E6228A100E0F71C /* FirebaseDatabase in Frameworks */,
+				52CAC1EA2E6228A800E0F71C /* FirebaseStorage in Frameworks */,
+				52CAC1E42E62289100E0F71C /* FirebaseAuth in Frameworks */,
+				52CAC1E62E62289C00E0F71C /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -75,9 +88,11 @@
 		52CAC1A92E62207800E0F71C = {
 			isa = PBXGroup;
 			children = (
+				52CAC1DF2E62243200E0F71C /* GoogleService-Info.plist */,
 				52CAC1B42E62207800E0F71C /* UmrahAdvisorApp */,
 				52CAC1C52E62207C00E0F71C /* UmrahAdvisorAppTests */,
 				52CAC1CF2E62207C00E0F71C /* UmrahAdvisorAppUITests */,
+				52CAC1E22E62289100E0F71C /* Frameworks */,
 				52CAC1B32E62207800E0F71C /* Products */,
 			);
 			sourceTree = "<group>";
@@ -90,6 +105,13 @@
 				52CAC1CC2E62207C00E0F71C /* UmrahAdvisorAppUITests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		52CAC1E22E62289100E0F71C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -112,6 +134,10 @@
 			);
 			name = UmrahAdvisorApp;
 			packageProductDependencies = (
+				52CAC1E32E62289100E0F71C /* FirebaseAuth */,
+				52CAC1E52E62289C00E0F71C /* FirebaseFirestore */,
+				52CAC1E72E6228A100E0F71C /* FirebaseDatabase */,
+				52CAC1E92E6228A800E0F71C /* FirebaseStorage */,
 			);
 			productName = UmrahAdvisorApp;
 			productReference = 52CAC1B22E62207800E0F71C /* UmrahAdvisorApp.app */;
@@ -195,6 +221,9 @@
 			);
 			mainGroup = 52CAC1A92E62207800E0F71C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				52CAC1E12E6227E800E0F71C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 52CAC1B32E62207800E0F71C /* Products */;
 			projectDirPath = "";
@@ -212,6 +241,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				52CAC1E02E62243300E0F71C /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,6 +588,40 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		52CAC1E12E6227E800E0F71C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.2.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		52CAC1E32E62289100E0F71C /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52CAC1E12E6227E800E0F71C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		52CAC1E52E62289C00E0F71C /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52CAC1E12E6227E800E0F71C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		52CAC1E72E6228A100E0F71C /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52CAC1E12E6227E800E0F71C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		52CAC1E92E6228A800E0F71C /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 52CAC1E12E6227E800E0F71C /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 52CAC1AA2E62207800E0F71C /* Project object */;
 }
