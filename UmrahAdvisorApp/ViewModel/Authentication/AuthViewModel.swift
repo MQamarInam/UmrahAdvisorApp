@@ -38,9 +38,8 @@ class AuthViewModel: ObservableObject {
                 self.errorMessage = error.localizedDescription
                 return
             } else {
-                self.errorMessage = "Account is created Sucessfully."
+                self.errorMessage = "Account is created Successfully."
             }
-            
             guard let user = result?.user else { return }
             user.sendEmailVerification(completion: { error in
                 if let error = error {
@@ -92,7 +91,6 @@ class AuthViewModel: ObservableObject {
     
     func signIn(email: String, password: String) {
         isLoading = true
-        
         if email.lowercased() == "qamarinam026@gmail.com" && password == "567890" {
             DispatchQueue.main.async { [weak self] in
                 self?.isLoading = false

@@ -24,7 +24,7 @@ struct UmrahAdvisorAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            RegisterView()
         }
     }
 }
