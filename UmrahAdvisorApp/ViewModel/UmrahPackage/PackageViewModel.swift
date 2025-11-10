@@ -12,22 +12,9 @@ class PackageViewModel: ObservableObject {
         fetchPackagesData()
     }
     
-    func savePackageData(
-        name: String,
-        price: Double,
-        days: Int,
-        isHot: Bool,
-        firstDays: Int,
-        nextDays: Int,
-        lastDays: Int,
-        makkahHotel: String,
-        madinahHotel: String,
-        roomTypes: String,
-        transportType: String,
-        flightName: String,
-        departure: FlightDetail,
-        arrival: FlightDetail,
-        completion: @escaping (Bool) -> Void
+    func savePackageData(name: String, price: Double, days: Int, isHot: Bool, firstDays: Int, nextDays: Int, lastDays: Int,
+        makkahHotel: String, madinahHotel: String, roomTypes: String, transportType: String, flightName: String,
+        departure: FlightDetail, arrival: FlightDetail, completion: @escaping (Bool) -> Void
     ) {
         self.isLoading = true
         let packageData: [String: Any] = [
@@ -78,7 +65,6 @@ class PackageViewModel: ObservableObject {
                 print("Error fetching packages: \(error.localizedDescription)")
                 return
             }
-
             guard let documents = snapshot?.documents else {
                 print("No documents found")
                 return
@@ -99,8 +85,6 @@ class PackageViewModel: ObservableObject {
                 let roomTypes = data["roomTypes"] as? String ?? "Not specified"
                 let transportType = data["transportType"] as? String ?? "Not specified"
                 let flightName = data["flightName"] as? String ?? "Not specified"
-
-                // Fetch departure details
                 let departureData = data["departure"] as? [String: Any] ?? [:]
                 let departure = FlightDetail(
                     sector: departureData["sector"] as? String ?? "Unknown",
@@ -108,7 +92,6 @@ class PackageViewModel: ObservableObject {
                     time: (departureData["time"] as? Timestamp)?.dateValue() ?? Date(),
                     baggage: departureData["baggage"] as? String ?? "Unknown"
                 )
-                // Fetch arrival details
                 let arrivalData = data["arrival"] as? [String: Any] ?? [:]
                 let arrival = FlightDetail(
                     sector: arrivalData["sector"] as? String ?? "Unknown",
@@ -117,22 +100,9 @@ class PackageViewModel: ObservableObject {
                     baggage: arrivalData["baggage"] as? String ?? "Unknown"
                 )
                 // Create package object
-                let package = Packages(
-                    id: id,
-                    name: name,
-                    price: price,
-                    days: days,
-                    isHot: isHot,
-                    firstDays: firstDays,
-                    nextDays: nextDays,
-                    lastDays: lastDays,
-                    makkahHotel: makkahHotel,
-                    madinahHotel: madinahHotel,
-                    roomTypes: roomTypes,
-                    transportType: transportType,
-                    flightName: flightName,
-                    departure: departure,
-                    arrival: arrival
+                let package = Packages(id: id, name: name, price: price, days: days, isHot: isHot, firstDays: firstDays, nextDays: nextDays,
+                    lastDays: lastDays, makkahHotel: makkahHotel, madinahHotel: madinahHotel, roomTypes: roomTypes,
+                    transportType: transportType, flightName: flightName, departure: departure, arrival: arrival
                 )
                 self.packages.append(package)
             }
@@ -158,7 +128,6 @@ class PackageViewModel: ObservableObject {
         let updateData: [String: Any] = [
             "price": newPrice
         ]
-        
         firestore.collection("Packages").document(packageId).updateData(updateData) { error in
             if let error = error {
                 print("Failed to update package price: \(error.localizedDescription)")
