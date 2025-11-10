@@ -13,6 +13,9 @@ struct ContentView: View {
         NavigationStack {
             NavigationLink("Map", destination: LocationView())
         }
+        NavigationStack {
+            NavigationLink("Packages", destination: ShowAllPackagesView())
+        }
         
     }
 }
