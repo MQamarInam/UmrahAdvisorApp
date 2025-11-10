@@ -34,7 +34,7 @@ struct PackageDetailView: View {
                     }
                     .padding(.horizontal)
                     
-                    bookBTNSection
+                    bookBTNSection(item: item)
                         
                 }
                 .padding()
@@ -222,8 +222,8 @@ extension PackageDetailView  {
         }
     }
     
-    private var bookBTNSection: some View {
-        NavigationLink(destination: ContentView()) {
+    private func bookBTNSection(item: Packages) -> some View {
+        NavigationLink(destination: BookPackageView(item: item)) {
             Text("BOOK NOW")
                 .padding(10)
                 .foregroundColor(.white)
