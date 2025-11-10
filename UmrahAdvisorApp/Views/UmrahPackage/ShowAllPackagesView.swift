@@ -10,6 +10,9 @@ struct ShowAllPackagesView: View {
     var body: some View {
         NavigationStack {
             VStack {
+                
+                categorySelectionSection
+
                 if fm.isLoading {
                     ProgressViewSection
                 } else {
@@ -20,7 +23,7 @@ struct ShowAllPackagesView: View {
                     }
                 }
             }
-            .navigationTitle("All Umrah Packages")
+            .navigationTitle("Umrah Packages")
             .navigationBarTitleDisplayMode(.large)
 //            .sheet(item: $selectedPackage) { package in
 //                PackageDetailView(item: package)
@@ -38,6 +41,30 @@ struct ShowAllPackagesView: View {
 
 extension ShowAllPackagesView {
     
+    private var categorySelectionSection: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 10) {
+                ForEach(PackageCategory.allCases, id: \.self) { category in
+                    categoryButton(for: category)
+                }
+            }
+            .padding(.horizontal)
+            .padding(.top, 5)
+        }
+    }
+    
+    private func categoryButton(for category: PackageCategory) -> some View {
+        Text(category.rawValue)
+            .padding(.vertical, 8)
+            .padding(.horizontal, 16)
+            .background(fm.selectedCategory == category ? Color.bgcu.opacity(0.8) : Color.gray.opacity(0.2))
+            .foregroundColor(fm.selectedCategory == category ? .white : .black)
+            .cornerRadius(12)
+            .onTapGesture {
+                fm.selectedCategory = category
+            }
+    }
+    
     private var ProgressViewSection: some View {
         ProgressView("Loading Packages...")
             .progressViewStyle(CircularProgressViewStyle(tint: .green))
@@ -51,7 +78,7 @@ extension ShowAllPackagesView {
     }
     
     private var ListSection: some View {
-        List(fm.packages) { package in
+        List(fm.filteredPackages) { package in
             Button(action: {
                 selectedPackage = package
                 showDetailSheet = true

@@ -8,6 +8,26 @@ class PackageViewModel: ObservableObject {
     @Published var packages = [Packages]()
     @Published var isLoading: Bool = false
     
+    @Published var selectedCategory: PackageCategory = .all
+    
+    var filteredPackages: [Packages] {
+        switch selectedCategory {
+        case .all:
+            return packages
+        case .hot:
+            return packages.filter { $0.isHot }
+        case .days28:
+            return packages.filter { $0.days == 28 }
+        case .days21:
+            return packages.filter { $0.days == 21 }
+        case .days14:
+            return packages.filter { $0.days == 14 }
+        case .days7:
+            return packages.filter { $0.days == 7 }
+        }
+    }
+
+    
     init() {
         fetchPackagesData()
     }
