@@ -16,7 +16,7 @@ struct ShowAllPackagesView: View {
                 if fm.isLoading {
                     ProgressViewSection
                 } else {
-                    if fm.packages.isEmpty {
+                    if fm.filteredPackages.isEmpty {
                         noPackagesSection
                     } else {
                         ListSection
@@ -25,9 +25,9 @@ struct ShowAllPackagesView: View {
             }
             .navigationTitle("Umrah Packages")
             .navigationBarTitleDisplayMode(.large)
-//            .sheet(item: $selectedPackage) { package in
-//                PackageDetailView(item: package)
-//            }
+            .sheet(item: $selectedPackage) { package in
+                PackageDetailView(item: package)
+            }
             .onAppear {
                 fm.fetchPackagesData()
             }
@@ -72,9 +72,13 @@ extension ShowAllPackagesView {
     }
     
     private var noPackagesSection: some View {
-        Text("No packages found.")
-            .foregroundColor(.gray)
-            .font(.headline)
+        VStack {
+            Spacer()
+            Text("No packages found.")
+                .foregroundColor(.gray)
+                .font(.headline)
+            Spacer()
+        }
     }
     
     private var ListSection: some View {
