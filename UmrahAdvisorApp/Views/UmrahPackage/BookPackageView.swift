@@ -131,6 +131,7 @@ extension BookPackageView {
                         Text(error)
                             .foregroundColor(.red)
                             .font(.caption)
+                            .frame(maxWidth: .infinity, alignment: .center)
                     }
                     
                     DatePicker("Date of Birth", selection: $recipient.dateOfBirth, displayedComponents: .date)
