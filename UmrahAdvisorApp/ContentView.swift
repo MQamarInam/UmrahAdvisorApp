@@ -12,9 +12,10 @@ struct ContentView: View {
         
         NavigationStack {
             NavigationLink("Map", destination: LocationView())
-        }
-        NavigationStack {
+            
             NavigationLink("Packages", destination: ShowAllPackagesView())
+            
+            NavigationLink("Custom Package", destination: CustomPackageView())
         }
         
     }

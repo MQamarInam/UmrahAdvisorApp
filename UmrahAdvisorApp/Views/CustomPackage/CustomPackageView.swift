@@ -29,7 +29,7 @@ struct CustomPackageView: View {
             }
             .navigationTitle("Create Umrah Package")
             .sheet(isPresented: $showPersonalInfoSheet) {
-                AddPersonalInformationView(viewModel: viewModel)
+                BookCustomPackageView(viewModel: viewModel)
             }
         }
         
