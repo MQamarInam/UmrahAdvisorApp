@@ -16,6 +16,6 @@ struct BookingModel: Identifiable {
     var packageDays: Int
     var totalPrice: Double
     var numberOfPackages: Int
-    var emergencyNumber: String
+    var whatsAppNumber: String
     var recipients: [[String: Any]]
 }

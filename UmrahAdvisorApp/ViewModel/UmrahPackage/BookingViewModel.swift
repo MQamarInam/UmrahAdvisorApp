@@ -15,7 +15,7 @@ class BookingViewModel: ObservableObject {
     @Published var bookingRequests: [BookingModel] = []
     private let db = Firestore.firestore()
     
-    func saveBookingRequest(package: Packages, totalPrice: Double, numberOfPackages: Int, emergencyNumber: String, recipients: [RecipientDetail]) {
+    func saveBookingRequest(package: Packages, totalPrice: Double, numberOfPackages: Int, WhatsAppNumber: String, recipients: [RecipientDetail]) {
         guard let user = Auth.auth().currentUser else {
             return
         }
@@ -29,7 +29,7 @@ class BookingViewModel: ObservableObject {
             ],
             "totalPrice": totalPrice,
             "numberOfPackages": numberOfPackages,
-            "emergencyNumber": emergencyNumber,
+            "whatsAppNumber": WhatsAppNumber,
             "recipients": recipients.map { recipient in
                 [
                     "surName": recipient.surName,
@@ -66,7 +66,7 @@ class BookingViewModel: ObservableObject {
                     let packageDays = package["days"] as? Int,
                     let totalPrice = data["totalPrice"] as? Double,
                     let numberOfPackages = data["numberOfPackages"] as? Int,
-                    let emergencyNumber = data["emergencyNumber"] as? String,
+                    let whatsAppNumber = data["WhatsAppNumber"] as? String,
                     let recipients = data["recipients"] as? [[String: Any]]
                 else { return nil }
                 
@@ -79,7 +79,7 @@ class BookingViewModel: ObservableObject {
                     packageDays: packageDays,
                     totalPrice: totalPrice,
                     numberOfPackages: numberOfPackages,
-                    emergencyNumber: emergencyNumber,
+                    whatsAppNumber: whatsAppNumber,
                     recipients: recipients
                 )
             } ?? []
@@ -120,7 +120,7 @@ class BookingViewModel: ObservableObject {
                         let packageDays = package["days"] as? Int,
                         let totalPrice = data["totalPrice"] as? Double,
                         let numberOfPackages = data["numberOfPackages"] as? Int,
-                        let emergencyNumber = data["emergencyNumber"] as? String,
+                        let whatsAppNumber = data["whatsAppNumber"] as? String,
                         let recipients = data["recipients"] as? [[String: Any]]
                     else { return nil }
                     
@@ -133,7 +133,7 @@ class BookingViewModel: ObservableObject {
                         packageDays: packageDays,
                         totalPrice: totalPrice,
                         numberOfPackages: numberOfPackages,
-                        emergencyNumber: emergencyNumber,
+                        whatsAppNumber: whatsAppNumber,
                         recipients: recipients
                     )
                 } ?? []

@@ -14,5 +14,4 @@ struct RecipientDetail: Identifiable {
     var passportNumber: String = ""
     var dateOfBirth: Date = Date()
     var expiryDate: Date = Date()
-    var mobileNumber: String = ""
 }

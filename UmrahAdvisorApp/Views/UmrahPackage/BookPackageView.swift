@@ -10,11 +10,12 @@ import SwiftUI
 struct BookPackageView: View {
     
     @State private var numberOfPackages = 1
-    @State private var emergencyNumber = ""
+    @State private var WhatsAppNumber = ""
     @State private var recipients: [RecipientDetail] = [RecipientDetail()]
     var item: Packages
     @State private var showAlert = false
     @State private var passportNumberError: String? = nil
+    @State private var whatsappNumberError: String? = nil
     
     var totalPrice: Double {
         Double(numberOfPackages) * item.price
@@ -98,10 +99,20 @@ extension BookPackageView {
             }
             .tint(Color.background)
             
-            TextField("Emergency Contact Number", text: $emergencyNumber)
+            TextField("WhatsApp Number", text: $WhatsAppNumber)
                 .padding(12)
+                .keyboardType(.numberPad)
                 .background(Color.bgcu.opacity(0.3))
                 .cornerRadius(10)
+                .onChange(of: WhatsAppNumber) { oldValue, newValue in
+                    whatsappNumberError = isValidContactNumber(newValue) ? nil : "Invalid WhatsApp Number"
+                }
+            if let error = whatsappNumberError {
+                Text(error)
+                    .foregroundColor(.red)
+                    .font(.caption)
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
         }
     }
     
@@ -120,6 +131,7 @@ extension BookPackageView {
                             .onChange(of: recipient.passportNumber) { oldValue, newValue in
                                 passportNumberError = isValidPassportNumber(newValue) ? nil : "Invalid Passport Number"
                             }
+                            .textInputAutocapitalization(.characters)
                     }
                     .padding(12)
                     .background(Color.white.opacity(0.5))
@@ -161,7 +173,7 @@ extension BookPackageView {
     
     private var isFormValid: Bool {
         for recipient in recipients {
-            if recipient.surName.isEmpty || recipient.givenName.isEmpty || emergencyNumber.count < 11 {
+            if recipient.surName.isEmpty || recipient.givenName.isEmpty || WhatsAppNumber.count < 11 {
                 return false
             }
             if !isValidPassportNumber(recipient.passportNumber) {
@@ -178,6 +190,13 @@ extension BookPackageView {
         return regex?.firstMatch(in: passport, options: [], range: range) != nil
     }
     
+    private func isValidContactNumber(_ number: String) -> Bool {
+        let pattern = "^(\\+92|0)3[0-9]{9}$"
+        let regex = try? NSRegularExpression(pattern: pattern)
+        let range = NSRange(location: 0, length: number.utf16.count)
+        return regex?.firstMatch(in: number, options: [], range: range) != nil
+    }
+    
     private var confirmBookingBTN: some View {
         Button {
             _ = recipients.map { recipient in
@@ -189,10 +208,10 @@ extension BookPackageView {
                     "expiryDate": recipient.expiryDate
                 ]
             }
-            br.saveBookingRequest(package: item, totalPrice: totalPrice, numberOfPackages: numberOfPackages, emergencyNumber: emergencyNumber, recipients: recipients
+            br.saveBookingRequest(package: item, totalPrice: totalPrice, numberOfPackages: numberOfPackages, WhatsAppNumber: WhatsAppNumber, recipients: recipients
             )
             numberOfPackages = 1
-            emergencyNumber = ""
+            WhatsAppNumber = ""
             recipients = [RecipientDetail()]
             showAlert = true
         } label: {
