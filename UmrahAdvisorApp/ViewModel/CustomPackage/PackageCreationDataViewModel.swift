@@ -168,7 +168,7 @@ class PackageCreationDataViewModel: ObservableObject {
             time: arrivalTime,
             baggage: arrivalBaggage
         )
-        fm.sendPackagesData(
+        fm.savePackageData(
             name: name,
             price: priceValue,
             days: dayValue,
