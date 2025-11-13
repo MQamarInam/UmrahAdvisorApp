@@ -42,15 +42,6 @@ struct Ziyarat: Identifiable, Hashable {
     var price: Double
 }
 
-struct RecipientDetails: Identifiable {
-    var id = UUID()
-    var surName: String = ""
-    var givenName: String = ""
-    var passportNumber: String = ""
-    var dateOfBirth: Date = Date()
-    var expiryDate: Date = Date()
-}
-
 struct CustomPackageRequest: Identifiable {
     var id: String
     var numberOfPackages: Int
@@ -69,9 +60,9 @@ struct CustomPackageRequest: Identifiable {
     var ziyarat: [String]
     var totalPrice: Double
     var grandTotalPrice: Double
-    var identifiableRecipients: [RecipientDetails] {
+    var identifiableRecipients: [RecipientDetail] {
         recipients.map { recipient in
-            RecipientDetails(
+            RecipientDetail(
                 surName: recipient["surname"] as? String ?? "",
                 givenName: recipient["givenName"] as? String ?? "",
                 passportNumber: recipient["passportNumber"] as? String ?? "",

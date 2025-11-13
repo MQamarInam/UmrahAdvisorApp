@@ -4,7 +4,7 @@ import SwiftUI
 struct BookCustomPackageView: View {
     
     @ObservedObject var viewModel: CustomPackageViewModel
-    @State private var recipients: [RecipientDetails] = [RecipientDetails()]
+    @State private var recipients: [RecipientDetail] = [RecipientDetail()]
     @State private var whatsAppNumber: String = ""
     @State private var passportNumberError: String? = nil
     @State private var whatsappNumberError: String? = nil
@@ -227,7 +227,7 @@ extension BookCustomPackageView {
     private func updateRecipientFields() {
         if recipients.count < viewModel.numberOfPackages {
             for _ in recipients.count..<viewModel.numberOfPackages {
-                recipients.append(RecipientDetails())
+                recipients.append(RecipientDetail())
             }
         } else if recipients.count > viewModel.numberOfPackages {
             recipients.removeLast(recipients.count - viewModel.numberOfPackages)
@@ -236,7 +236,7 @@ extension BookCustomPackageView {
     
     private func resetForm() {
         viewModel.numberOfPackages = 1
-        recipients = [RecipientDetails()]
+        recipients = [RecipientDetail()]
         whatsAppNumber = ""
         isRequestSuccessful = false
     }
