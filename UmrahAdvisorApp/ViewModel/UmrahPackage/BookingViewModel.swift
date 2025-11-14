@@ -15,7 +15,7 @@ class BookingViewModel: ObservableObject {
     @Published var bookingRequests: [BookingModel] = []
     private let db = Firestore.firestore()
     
-    func saveBookingRequest(package: Packages, totalPrice: Double, numberOfPackages: Int, WhatsAppNumber: String, recipients: [RecipientDetail]) {
+    func saveBookingRequest(package: Packages, totalPrice: Double, numberOfPackages: Int, whatsAppNumber: String, recipients: [RecipientDetail]) {
         guard let user = Auth.auth().currentUser else {
             return
         }
@@ -29,7 +29,7 @@ class BookingViewModel: ObservableObject {
             ],
             "totalPrice": totalPrice,
             "numberOfPackages": numberOfPackages,
-            "whatsAppNumber": WhatsAppNumber,
+            "whatsAppNumber": whatsAppNumber,
             "recipients": recipients.map { recipient in
                 [
                     "surName": recipient.surName,
@@ -40,7 +40,7 @@ class BookingViewModel: ObservableObject {
                 ]
             }
         ]
-        db.collection("bookings").addDocument(data: bookingData) { error in
+        db.collection("PackageRequests").addDocument(data: bookingData) { error in
             if let error = error {
                 print("Failed to create booking: \(error.localizedDescription)")
             } else {
@@ -50,7 +50,7 @@ class BookingViewModel: ObservableObject {
     }
 
     func fetchBookingRequests() {
-        db.collection("bookings").getDocuments { snapshot, error in
+        db.collection("PackageRequests").getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching booking requests: \(error.localizedDescription)")
                 return
@@ -66,7 +66,7 @@ class BookingViewModel: ObservableObject {
                     let packageDays = package["days"] as? Int,
                     let totalPrice = data["totalPrice"] as? Double,
                     let numberOfPackages = data["numberOfPackages"] as? Int,
-                    let whatsAppNumber = data["WhatsAppNumber"] as? String,
+                    let whatsAppNumber = data["whatsAppNumber"] as? String,
                     let recipients = data["recipients"] as? [[String: Any]]
                 else { return nil }
                 
@@ -89,7 +89,7 @@ class BookingViewModel: ObservableObject {
     func deleteBookingRequest(at indexSet: IndexSet) {
         indexSet.forEach { index in
             let bookingRequest = bookingRequests[index]
-            db.collection("bookings").document(bookingRequest.id).delete { error in
+            db.collection("PackageRequests").document(bookingRequest.id).delete { error in
                 if let error = error {
                     print("Error deleting booking request: \(error.localizedDescription)")
                 } else {
@@ -102,7 +102,7 @@ class BookingViewModel: ObservableObject {
     }
     
     func fetchUserBookingRequests(userId: String) {
-        db.collection("bookings")
+        db.collection("PackageRequests")
             .whereField("userId", isEqualTo: userId)
             .getDocuments { snapshot, error in
                 if let error = error {

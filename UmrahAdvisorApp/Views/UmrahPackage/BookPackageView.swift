@@ -10,7 +10,7 @@ import SwiftUI
 struct BookPackageView: View {
     
     @State private var numberOfPackages = 1
-    @State private var WhatsAppNumber = ""
+    @State private var whatsAppNumber = ""
     @State private var recipients: [RecipientDetail] = [RecipientDetail()]
     var item: Packages
     @State private var showAlert = false
@@ -99,12 +99,12 @@ extension BookPackageView {
             }
             .tint(Color.background)
             
-            TextField("WhatsApp Number", text: $WhatsAppNumber)
+            TextField("WhatsApp Number", text: $whatsAppNumber)
                 .padding(12)
                 .keyboardType(.numberPad)
                 .background(Color.bgcu.opacity(0.3))
                 .cornerRadius(10)
-                .onChange(of: WhatsAppNumber) { oldValue, newValue in
+                .onChange(of: whatsAppNumber) { oldValue, newValue in
                     whatsappNumberError = isValidContactNumber(newValue) ? nil : "Invalid WhatsApp Number"
                 }
             if let error = whatsappNumberError {
@@ -173,7 +173,7 @@ extension BookPackageView {
     
     private var isFormValid: Bool {
         for recipient in recipients {
-            if recipient.surName.isEmpty || recipient.givenName.isEmpty || WhatsAppNumber.count < 11 {
+            if recipient.surName.isEmpty || recipient.givenName.isEmpty || whatsAppNumber.count < 11 {
                 return false
             }
             if !isValidPassportNumber(recipient.passportNumber) {
@@ -208,10 +208,10 @@ extension BookPackageView {
                     "expiryDate": recipient.expiryDate
                 ]
             }
-            br.saveBookingRequest(package: item, totalPrice: totalPrice, numberOfPackages: numberOfPackages, WhatsAppNumber: WhatsAppNumber, recipients: recipients
+            br.saveBookingRequest(package: item, totalPrice: totalPrice, numberOfPackages: numberOfPackages, whatsAppNumber: whatsAppNumber, recipients: recipients
             )
             numberOfPackages = 1
-            WhatsAppNumber = ""
+            whatsAppNumber = ""
             recipients = [RecipientDetail()]
             showAlert = true
         } label: {

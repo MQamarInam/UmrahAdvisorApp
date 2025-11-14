@@ -80,12 +80,12 @@ struct BookingRow: View {
                         .stroke(Color.gray.opacity(0.2), lineWidth: 1)
                 )
             }
-            .buttonStyle(PlainButtonStyle()) // Remove default button styling
+            .buttonStyle(PlainButtonStyle())
             .padding(.bottom, 5)
         }
-        .listRowInsets(EdgeInsets()) // Remove default list row padding
-        .listRowSeparator(.hidden) // Hide the default separator
-        .listRowBackground(Color(.systemGray6)) // Set the background color for the row
+        .listRowInsets(EdgeInsets())
+        .listRowSeparator(.hidden)
+        .listRowBackground(Color(.systemGray6))
         .swipeActions(edge: .trailing, allowsFullSwipe: true) {
             Button(role: .destructive, action: onDelete) {
                 Label("Delete", systemImage: "trash")

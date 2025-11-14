@@ -43,7 +43,6 @@ struct AddPackageView: View {
     
 }
 
-// MARK: - View Extensions
 private extension View {
     func sectionStyle() -> some View {
         self.padding(.vertical)
