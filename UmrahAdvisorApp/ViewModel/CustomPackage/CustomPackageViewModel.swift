@@ -157,7 +157,7 @@ class CustomPackageViewModel: ObservableObject {
     
     // Delete Makkah Hotel
     func deleteMakkahHotel(_ hotel: Hotel) {
-        guard let id = hotel.id else { return }
+        let id = hotel.id
         firestore.collection("MakkahHotels").document(id).delete { error in
             if let error = error {
                 print("Error deleting Makkah hotel: \(error.localizedDescription)")
@@ -171,7 +171,7 @@ class CustomPackageViewModel: ObservableObject {
     
     // Delete Madinah Hotel
     func deleteMadinahHotel(_ hotel: Hotel) {
-        guard let id = hotel.id else { return }
+        let id = hotel.id
         firestore.collection("MadinahHotels").document(id).delete { error in
             if let error = error {
                 print("Error deleting Madinah hotel: \(error.localizedDescription)")
@@ -185,7 +185,7 @@ class CustomPackageViewModel: ObservableObject {
     
     // Delete Flight
     func deleteFlight(_ flight: Flight) {
-        guard let id = flight.id else { return }
+        let id = flight.id
         firestore.collection("Flights").document(id).delete { error in
             if let error = error {
                 print("Error deleting flight: \(error.localizedDescription)")
@@ -199,7 +199,7 @@ class CustomPackageViewModel: ObservableObject {
     
     // Delete Transportation
     func deleteTransportation(_ transportation: Transportation) {
-        guard let id = transportation.id else { return }
+        let id = transportation.id
         firestore.collection("Transportations").document(id).delete { error in
             if let error = error {
                 print("Error deleting transportation: \(error.localizedDescription)")
@@ -213,7 +213,7 @@ class CustomPackageViewModel: ObservableObject {
     
     // Delete Ziyarat
     func deleteZiyarat(_ ziyarat: Ziyarat) {
-        guard let id = ziyarat.id else { return }
+        let id = ziyarat.id
         firestore.collection("Ziyarats").document(id).delete { error in
             if let error = error {
                 print("Error deleting Ziyarat: \(error.localizedDescription)")
@@ -239,7 +239,7 @@ class CustomPackageViewModel: ObservableObject {
     }
     
     func updateFlightToFirebase(flight: Flight) {
-        guard let flightId = flight.id else { return }
+        let flightId = flight.id
         
         let flightData: [String: Any] = [
             "name": flight.name,
@@ -268,7 +268,7 @@ class CustomPackageViewModel: ObservableObject {
     }
     
     func updateMakkahHotelToFirebase(hotel: Hotel) {
-        guard let hotelId = hotel.id else { return }
+        let hotelId = hotel.id
         
         let hotelData: [String: Any] = [
             "name": hotel.name,
@@ -297,7 +297,7 @@ class CustomPackageViewModel: ObservableObject {
     }
     
     func updateMadinahHotelToFirebase(hotel: Hotel) {
-        guard let hotelId = hotel.id else { return }
+        let hotelId = hotel.id
         let hotelData: [String: Any] = [
             "name": hotel.name,
             "rooms": hotel.rooms.map { ["type": $0.type, "price": $0.price] }
@@ -321,7 +321,7 @@ class CustomPackageViewModel: ObservableObject {
     }
     
     func updateZiyaratToFirebase(ziyarat: Ziyarat) {
-        guard let ziyaratId = ziyarat.id else { return }
+        let ziyaratId = ziyarat.id
         let ziyaratData: [String: Any] = [
             "name": ziyarat.name,
             "price": ziyarat.price
@@ -345,7 +345,7 @@ class CustomPackageViewModel: ObservableObject {
     }
     
     func updateTransportationToFirebase(transportation: Transportation) {
-        guard let transportationId = transportation.id else { return }
+        let transportationId = transportation.id
         let transportationData: [String: Any] = [
             "type": transportation.type,
             "price": transportation.price

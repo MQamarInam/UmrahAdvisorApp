@@ -7,43 +7,43 @@
 import Foundation
 
 struct Hotel: Identifiable, Hashable {
-    var id: String?
+    var id: String = UUID().uuidString
     let name: String
     var rooms: [Room]
 }
 
 struct Room: Identifiable, Hashable {
-    var id: String?
+    var id: String = UUID().uuidString
     let type: String
     var price: Double
 }
 
 struct Flight: Identifiable, Hashable {
-    var id: String?
+    var id: String = UUID().uuidString
     let name: String
     var durations: [FlightDuration]
 }
 
 struct FlightDuration: Identifiable, Hashable {
-    var id: String?
+    var id: String = UUID().uuidString
     let days: Int
     var price: Double
 }
 
 struct Transportation: Identifiable, Hashable {
-    var id: String?
+    var id: String = UUID().uuidString
     let type: String
     var price: Double
 }
 
 struct Ziyarat: Identifiable, Hashable {
-    var id: String?
+    var id: String = UUID().uuidString
     let name: String
     var price: Double
 }
 
 struct CustomPackageRequest: Identifiable {
-    var id: String
+    var id: String = UUID().uuidString 
     var numberOfPackages: Int
     var mobileNumber: String
     var recipients: [[String: Any]]
