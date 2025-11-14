@@ -59,7 +59,8 @@ struct TransportationDetailView: View {
                 TextField("New Price", text: $newPrice)
                     .keyboardType(.decimalPad)
                 Button("Save") {
-                    if let newPriceValue = Double(newPrice), let transportationId = transportation.id {
+                    if let newPriceValue = Double(newPrice) {
+                        let transportationId = transportation.id   // already non-optional
                         viewModel.updateTransportationPrice(transportationId: transportationId, newPrice: newPriceValue)
                     }
                 }

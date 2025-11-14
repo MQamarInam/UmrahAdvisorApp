@@ -59,7 +59,8 @@ struct ZiyaratDetailView: View {
                 TextField("New Price", text: $newPrice)
                     .keyboardType(.decimalPad)
                 Button("Save") {
-                    if let newPriceValue = Double(newPrice), let ziyaratId = ziyarat.id {
+                    if let newPriceValue = Double(newPrice) {
+                        let ziyaratId = ziyarat.id
                         viewModel.updateZiyaratPrice(ziyaratId: ziyaratId, newPrice: newPriceValue)
                     }
                 }

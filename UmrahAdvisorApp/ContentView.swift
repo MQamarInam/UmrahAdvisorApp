@@ -16,6 +16,12 @@ struct ContentView: View {
             NavigationLink("Packages", destination: ShowAllPackagesView())
             
             NavigationLink("Custom Package", destination: CustomPackageView())
+            
+            NavigationLink("Add madinah", destination: ModifyMadinahHotel())
+            NavigationLink("Add makkah", destination: ModifyMakkahHotel())
+            NavigationLink("Add transportation", destination: ModifyTransportationData())
+            NavigationLink("Add Ziyarats", destination: ModifyZiyaratData())
+            NavigationLink("Add Flight", destination: ModifyFlightData())
         }
         
     }

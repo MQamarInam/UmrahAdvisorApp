@@ -63,7 +63,9 @@ struct MadinahHotelDetailView: View {
                 TextField("New Price", text: $newPrice)
                     .keyboardType(.decimalPad)
                 Button("Save") {
-                    if let newPriceValue = Double(newPrice), let hotelId = hotel.id, let roomId = room.id {
+                    if let newPriceValue = Double(newPrice) {
+                        let hotelId = hotel.id
+                        let roomId = room.id
                         viewModel.updateMadinahHotelRoomPrice(hotelId: hotelId, roomId: roomId, newPrice: newPriceValue)
                     }
                 }

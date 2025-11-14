@@ -1,39 +1,45 @@
-import SwiftUI
-import Firebase
+//
+//  MakkahHotelDetailView.swift
+//  FirebasePeoject
+//
+//  Created by Qaim's Macbook  on 15/03/2025.
+//
 
-struct FlightDetailView: View {
+import SwiftUI
+
+struct MakkahHotelDetailView: View {
     
-    let flight: Flight
+    let hotel: Hotel
     @ObservedObject var viewModel: CustomPackageViewModel
     
     @State private var showEditAlert = false
     @State private var newPrice: String = ""
-    @State private var selectedDuration: FlightDuration?
+    @State private var selectedRoom: Room?
     
     var body: some View {
         
         NavigationStack {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Available Durations:")
+                Text("Available Rooms:")
                     .font(.headline)
                     .padding(.top)
                 
-                ForEach(flight.durations, id: \.id) { duration in
+                ForEach(hotel.rooms, id: \.id) { room in
                     VStack(spacing: 10) {
                         HStack {
-                            Text("Days")
+                            Text("Room Type")
                             Spacer()
-                            Text("\(duration.days)")
+                            Text(room.type)
                             Spacer()
                         }
                         HStack {
                             Text("Price")
                             Spacer()
-                            Text("Rs.\(duration.price, specifier: "%.1f")")
+                            Text("Rs.\(room.price, specifier: "%.1f")")
                             Spacer()
                             Button {
-                                selectedDuration = duration
-                                newPrice = "\(duration.price)"
+                                selectedRoom = room
+                                newPrice = "\(room.price)"
                                 showEditAlert = true
                             } label: {
                                 Image(systemName: "square.and.pencil")
@@ -52,20 +58,22 @@ struct FlightDetailView: View {
                 Spacer()
             }
             .padding()
-            .navigationTitle(flight.name)
-            .alert("Edit Price", isPresented: $showEditAlert, presenting: selectedDuration) { duration in
+            .navigationTitle(hotel.name)
+            .alert("Edit Price", isPresented: $showEditAlert, presenting: selectedRoom) { room in
                 TextField("New Price", text: $newPrice)
                     .keyboardType(.decimalPad)
                 Button("Save") {
-                    if let newPriceValue = Double(newPrice), let flightId = flight.id, let durationId = duration.id {
-                        viewModel.updateFlightDurationPrice(flightId: flightId, durationId: durationId, newPrice: newPriceValue)
+                    if let newPriceValue = Double(newPrice) {
+                        let hotelId = hotel.id
+                        let roomId = room.id
+                        viewModel.updateMakkahHotelRoomPrice(hotelId: hotelId, roomId: roomId, newPrice: newPriceValue)
                     }
                 }
                 Button("Cancel", role: .cancel) {
-                    selectedDuration = nil
+                    selectedRoom = nil
                 }
-            } message: { duration in
-                Text("Enter the new price for \(duration.days) days.")
+            } message: { room in
+                Text("Enter the new price for \(room.type) room.")
             }
         }
     }
@@ -73,13 +81,13 @@ struct FlightDetailView: View {
 
 #Preview {
     let viewModel = CustomPackageViewModel()
-    return FlightDetailView(
-        flight: Flight(
+    return MakkahHotelDetailView(
+        hotel: Hotel(
             id: "1",
-            name: "Saudi Airlines",
-            durations: [
-                FlightDuration(id: "d1", days: 7, price: 1500.0),
-                FlightDuration(id: "d2", days: 10, price: 2000.0)
+            name: "Makkah Royal Hotel",
+            rooms: [
+                Room(id: "r1", type: "Single", price: 1000.0),
+                Room(id: "r2", type: "Double", price: 1500.0)
             ]
         ),
         viewModel: viewModel
