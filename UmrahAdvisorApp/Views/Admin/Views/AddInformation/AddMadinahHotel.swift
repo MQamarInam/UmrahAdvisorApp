@@ -1,8 +1,9 @@
 import SwiftUI
+import Firebase
 
-struct AddFlightData: View {
+struct AddMadinahHotel: View {
     
-    @StateObject private var vm: AddFlightDataViewModel = AddFlightDataViewModel()
+    @StateObject private var vm: AddMadinahHotelDataViewModel = AddMadinahHotelDataViewModel()
     
     var body: some View {
         
@@ -10,17 +11,17 @@ struct AddFlightData: View {
             ScrollView {
                 VStack(spacing: 20) {
 
-                    flightNameSection
-                    flightDurationSection
-                    addedDurationsSection
-                    addButtonSection
+                    hotelInfoSection
+                    AddRoomSection
+                    addedRoomsSection
+                    saveButtonSection
                     
                 }
                 .padding(.vertical)
                 .alert(isPresented: $vm.showAlert) {
                     Alert(title: Text("Alert!"), message: Text(vm.alertMessage), dismissButton: .default(Text("OK")))
                 }
-                .navigationTitle("Add Flight Data")
+                .navigationTitle("Add Madinah Hotel")
             }
             .onTapGesture {
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
@@ -31,19 +32,19 @@ struct AddFlightData: View {
 }
 
 #Preview {
-    AddFlightData()
+    AddMadinahHotel()
 }
 
-extension AddFlightData {
+extension AddMadinahHotel {
     
-    private var flightNameSection: some View {
+    private var hotelInfoSection: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("Flight Information")
+            Text("Hotel Information")
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding(.horizontal)
             
-            TextField("Airline Name", text: $vm.flightName)
+            TextField("Hotel Name", text: $vm.hotelName)
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
@@ -59,23 +60,23 @@ extension AddFlightData {
         .padding(.horizontal)
     }
     
-    private var flightDurationSection: some View {
+    private var AddRoomSection: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("Add Duration")
+            Text("Add Room")
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding(.horizontal)
             
             // Enhanced Picker
             Menu {
-                Picker("Flight Duration (Days)", selection: $vm.flightDuration) {
-                    ForEach(vm.flightDurations, id: \.self) { duration in
-                        Text("\(duration) days").tag(duration)
+                Picker("Room Type", selection: $vm.roomType) {
+                    ForEach(vm.roomTypes, id: \.self) { type in
+                        Text(type).tag(type)
                     }
                 }
             } label: {
                 HStack {
-                    Text("\(vm.flightDuration) days")
+                    Text(vm.roomType)
                         .foregroundColor(.primary)
                     Spacer()
                     Image(systemName: "chevron.down")
@@ -89,7 +90,7 @@ extension AddFlightData {
             }
             .padding(.horizontal)
             
-            TextField("Flight Price", text: $vm.flightPrice)
+            TextField("Room Price", text: $vm.roomPrice)
                 .padding()
                 .background(Color(.systemGray6))
                 .cornerRadius(10)
@@ -97,29 +98,7 @@ extension AddFlightData {
                 .padding(.horizontal)
                 .shadow(color: Color.black.opacity(0.1), radius: 5, x: 0, y: 2)
             
-            Button(action: {
-                if let price = Double(vm.flightPrice) {
-                    let duration = FlightDuration(days: vm.flightDuration, price: price)
-                    vm.durations.append(duration)
-                    vm.flightPrice = ""
-                } else {
-                    vm.alertMessage = "Invalid price. Please enter a valid number."
-                    vm.showAlert = true
-                }
-            }) {
-                HStack {
-                    Spacer()
-                    Text("Add Duration")
-                        .font(.headline)
-                        .foregroundColor(.white)
-                    Spacer()
-                }
-                .padding()
-                .background(Color.bgcu)
-                .cornerRadius(10)
-                .shadow(color: Color.green.opacity(0.3), radius: 5, x: 0, y: 3)
-            }
-            .padding(.horizontal)
+            addRoomButton
         }
         .padding(.vertical)
         .background(
@@ -128,21 +107,47 @@ extension AddFlightData {
                 .shadow(color: Color.green.opacity(0.1), radius: 10, x: 0, y: 5)
         )
         .padding(.horizontal)
+
     }
     
-    private var addedDurationsSection: some View {
+    private var addRoomButton: some View {
+        Button(action: {
+            if let price = Double(vm.roomPrice) {
+                let room = Room(type: vm.roomType, price: price)
+                vm.rooms.append(room)
+                vm.roomPrice = ""
+            } else {
+                vm.alertMessage = "Invalid price. Please enter a valid number."
+                vm.showAlert = true
+            }
+        }) {
+            HStack {
+                Spacer()
+                Text("Add Room")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                Spacer()
+            }
+            .padding()
+            .background(Color.bgcu)
+            .shadow(color: Color.green.opacity(0.3), radius: 5, x: 0, y: 3)
+        }
+        .padding(.horizontal)
+    }
+    
+    private var addedRoomsSection: some View {
         VStack(alignment: .leading, spacing: 15) {
-            Text("Added Durations")
+            Text("Added Rooms")
                 .font(.headline)
                 .foregroundColor(.white)
                 .padding(.horizontal)
             
-            ForEach(vm.durations) { duration in
+            ForEach(vm.rooms) { room in
                 HStack {
-                    Text("\(duration.days) days")
+                    Text("\(room.type)")
                         .foregroundColor(.primary)
                     Spacer()
-                    Text("RS. \(duration.price, specifier: "%.1f")")
+                    Text("RS. \(room.price, specifier: "%.1f")")
                         .foregroundColor(.primary)
                 }
                 .padding()
@@ -154,29 +159,32 @@ extension AddFlightData {
         .padding(.vertical)
         .background(
             RoundedRectangle(cornerRadius: 15)
-                .fill(Color.bgcu.opacity(0.3))
+                .fill(Color.bgcu.opacity(0.6))
                 .shadow(color: Color.blue.opacity(0.1), radius: 10, x: 0, y: 5)
         )
         .padding(.horizontal)
     }
     
-    private var addButtonSection: some View {
+    private var saveButtonSection: some View {
         Button(action: {
-            if vm.flightName.isEmpty || vm.durations.isEmpty {
-                vm.alertMessage = "Please fill all fields and add at least one duration."
+            if vm.hotelName.isEmpty || vm.rooms.isEmpty {
+                vm.alertMessage = "Please fill all fields and add at least one room."
                 vm.showAlert = true
             } else {
-                vm.saveFlightToFirebase()
+                vm.saveHotelToFirebase()
             }
         }) {
-            Text("Save to Firebase")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(maxWidth: .infinity, alignment: .center)
-                .background(Color.bgcu)
-                .cornerRadius(10)
-                .shadow(color: Color.green.opacity(0.3), radius: 5, x: 0, y: 3)
+            HStack {
+                Spacer()
+                Text("Save to Firebase")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                Spacer()
+            }
+            .padding()
+            .background(Color.bgcu)
+            .cornerRadius(10)
+            .shadow(color: Color.green.opacity(0.3), radius: 5, x: 0, y: 3)
         }
         .padding(.horizontal)
     }
