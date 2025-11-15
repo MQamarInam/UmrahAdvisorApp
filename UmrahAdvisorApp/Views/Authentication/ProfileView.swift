@@ -122,7 +122,7 @@ extension ProfileView {
         Section("Bookings") {
             HStack {
                 NavigationLink {
-//                    UserBookingRequestsView()
+                    UserBookingRequestsView()
                 } label: {
                     SettingRowView(imageName: "gear", title: "Package Bookings", tintColor: .gray)
                 }
