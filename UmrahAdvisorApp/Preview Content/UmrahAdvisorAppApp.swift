@@ -7,6 +7,7 @@
 
 import SwiftUI
 import Firebase
+import FirebaseAuth
 
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(_ application: UIApplication,
@@ -24,7 +25,11 @@ struct UmrahAdvisorAppApp: App {
     
     var body: some Scene {
         WindowGroup {
-            LoginView()
+            if Auth.auth().currentUser != nil {
+                ContentView()
+            } else {
+                LoginView()
+            }
         }
     }
 }
