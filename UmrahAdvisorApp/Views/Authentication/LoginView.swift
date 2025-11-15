@@ -52,7 +52,7 @@ struct LoginView: View {
                     ContentView()
                 }
                 .navigationDestination(isPresented: $authViewModel.shouldNavigateToAdminView) {
-//                    MainAdminPanelView()
+                    MainAdminPanelView()
                 }
             }
             .navigationBarHidden(true)

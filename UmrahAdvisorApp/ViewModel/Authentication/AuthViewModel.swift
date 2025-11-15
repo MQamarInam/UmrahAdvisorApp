@@ -91,10 +91,9 @@ class AuthViewModel: ObservableObject {
     
     func signIn(email: String, password: String) {
         isLoading = true
-        if email.lowercased() == "qamarinam026@gmail.com" && password == "567890" {
+        if email.lowercased() == "qamarinam026@gmail.com" && password == "098765" {
             DispatchQueue.main.async { [weak self] in
                 self?.isLoading = false
-                self?.errorMessage = "Invalid credentials. Please try again."
                 self?.isSignedIn = false
                 self?.shouldNavigateToAdminView = true
             }
