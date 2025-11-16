@@ -29,7 +29,7 @@ struct BigItemSubView: View {
                     .font(.title2)
                 Text(description)
                     .font(.subheadline)
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.gray)
                     .multilineTextAlignment(.leading)
                     .lineSpacing(-2)
             }

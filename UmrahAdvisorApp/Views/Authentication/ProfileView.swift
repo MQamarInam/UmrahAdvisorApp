@@ -89,6 +89,7 @@ extension ProfileView {
                         .lineLimit(1)
                 }
             }
+            .foregroundStyle(Color.anyBlackWhite)
             .alert("Edit Name", isPresented: $showEditAlert) {
                 TextField("Full Name", text: $newFullName)
                 Button("Cancel", role: .cancel) { }
@@ -115,6 +116,7 @@ extension ProfileView {
                 Text("1.0.0")
                     .foregroundStyle(.gray)
             }
+            .foregroundStyle(Color.anyBlackWhite)
         }
     }
     
@@ -127,6 +129,7 @@ extension ProfileView {
                     SettingRowView(imageName: "gear", title: "Package Bookings", tintColor: .gray)
                 }
             }
+            .foregroundStyle(Color.anyBlackWhite)
         }
     }
     
@@ -145,6 +148,7 @@ extension ProfileView {
                 SettingRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
             }
         }
+        .foregroundStyle(Color.anyBlackWhite)
     }
     
 }
@@ -161,7 +165,6 @@ struct SettingRowView: View {
                 .foregroundColor(tintColor)
             Text(title)
                 .font(.subheadline)
-                .foregroundColor(.black)
         }
     }
 }

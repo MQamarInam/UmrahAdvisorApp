@@ -57,8 +57,8 @@ extension ShowAllPackagesView {
         Text(category.rawValue)
             .padding(.vertical, 8)
             .padding(.horizontal, 16)
-            .background(fm.selectedCategory == category ? Color.bgcu.opacity(0.8) : Color.gray.opacity(0.2))
-            .foregroundColor(fm.selectedCategory == category ? .white : .black)
+            .background(fm.selectedCategory == category ? Color.bgcu.opacity(0.8) : Color.gray.opacity(0.4))
+            .foregroundColor(fm.selectedCategory == category ? .white : .anyBlackWhite.opacity(0.8))
             .cornerRadius(12)
             .onTapGesture {
                 fm.selectedCategory = category

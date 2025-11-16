@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct itemsSubView: View {
+struct ItemsSubView: View {
     @State var imageName: String
     @State var textShow: String
     var body: some View {

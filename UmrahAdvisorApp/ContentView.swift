@@ -124,24 +124,24 @@ extension ContentView {
         VStack(spacing: 15) {
             HStack(spacing: 22) {
                 NavigationLink(destination: ShowAllPackagesView()) {
-                    itemsSubView(imageName: "package", textShow: "All Packages")
+                    ItemsSubView(imageName: "package", textShow: "All Packages")
                 }
                 NavigationLink(destination: CustomPackageView()) {
-                    itemsSubView(imageName: "custom", textShow: "Custom Pkg")
+                    ItemsSubView(imageName: "custom", textShow: "Custom Pkg")
                 }
                 NavigationLink(destination: LocationView()) {
-                    itemsSubView(imageName: "navigation", textShow: "Navigation")
+                    ItemsSubView(imageName: "navigation", textShow: "Navigation")
                 }
             }
             HStack(spacing: 22) {
                 NavigationLink(destination: DuasView()) {
-                    itemsSubView(imageName: "DuaUI", textShow: "Dua's")
+                    ItemsSubView(imageName: "DuaUI", textShow: "Dua's")
                 }
                 NavigationLink(destination: HadithsView()) {
-                    itemsSubView(imageName: "HadithUI", textShow: "Hadiths")
+                    ItemsSubView(imageName: "HadithUI", textShow: "Hadiths")
                 }
                 NavigationLink(destination: TasbihCounterView()) {
-                    itemsSubView(imageName: "TasbihUI", textShow: "Tasbih")
+                    ItemsSubView(imageName: "TasbihUI", textShow: "Tasbih")
                 }
             }
             
@@ -158,6 +158,7 @@ extension ContentView {
         VStack(alignment: .leading) {
             HStack {
                 Text("Packages")
+                    .foregroundStyle(Color.black)
                     .padding(.top, 5)
                     .padding(.leading)
                     .font(.title)
@@ -237,11 +238,15 @@ extension ContentView {
                 .foregroundStyle(Color.black)
                 .background(Color.white)
                 .cornerRadius(12)
-                .shadow(color: Color.gray.opacity(0.4), radius: 10, x: 0, y: 5)
+                .shadow(color: Color.gray.opacity(0.2), radius: 10, x: 0, y: 5)
             }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.background.opacity(0.8))
         }
         .frame(height: 500)
         .listStyle(PlainListStyle())
+        .scrollContentBackground(.hidden)
+        .background(Color.background.opacity(0.7))
         .sheet(item: $selectedPackage) { package in
             PackageDetailView(item: package)
         }

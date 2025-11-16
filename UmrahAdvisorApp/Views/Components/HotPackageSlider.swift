@@ -23,7 +23,7 @@ struct HotPackageSlider: View {
             .background(
                 ZStack {
                     Color.white
-                    DealRadialAnimation(color: Color.green)
+                    DealRadialAnimation(color: Color.background)
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             )
@@ -58,12 +58,16 @@ extension HotPackageSlider {
     
     private var placeholderView: some View {
         VStack {
+            ProgressView()
+                .font(.headline)
+                .tint(.white)
             Text("No Hot Packages Available")
                 .font(.headline)
                 .foregroundColor(.white)
         }
-        .frame(maxWidth: .infinity, minHeight: 100)
-        .background(Color.bgcu.cornerRadius(12))
+        .padding()
+        .frame(maxWidth: .infinity)
+        .background(Color.background.cornerRadius(12))
     }
     
     private var packageSection: some View {
@@ -101,7 +105,7 @@ extension HotPackageSlider {
             }
             .padding(.horizontal)
             .padding(.top)
-            .foregroundColor(Color.bgcu)
+            .foregroundColor(Color.background)
             .frame(maxWidth: .infinity, minHeight: 180)
         }
         .contentShape(Rectangle())
@@ -140,8 +144,7 @@ extension HotPackageSlider {
 }
 
 struct DealRadialAnimation: View {
-    var color: Color = .green
-
+    var color: Color = .background
     @State private var animate = false
     @State private var animateSecond = false
 
