@@ -56,13 +56,10 @@ struct ContentView: View {
                     }
                     
                 }
-                .padding(.horizontal)
+                .padding(.horizontal, 12)
                 .overlay(alignment: .bottomTrailing) {
                     whatsAppButton
                 }
-//              .onAppear {
-//                  fm.fetchPackagesData()
-//              }
                 
             }
         }
@@ -121,11 +118,11 @@ extension ContentView {
                 BigItemSubView(imageName: "umrahguideUI", text: "Umrah Guide", description: "Here you will find the neccessary steps of umrah")
             }
         }
-        .padding(.horizontal, 10)
     }
+    
     private var otherElements: some View {
         VStack(spacing: 15) {
-            HStack(spacing: 20) {
+            HStack(spacing: 22) {
                 NavigationLink(destination: ShowAllPackagesView()) {
                     itemsSubView(imageName: "package", textShow: "All Packages")
                 }
@@ -136,7 +133,7 @@ extension ContentView {
                     itemsSubView(imageName: "navigation", textShow: "Navigation")
                 }
             }
-            HStack(spacing: 20) {
+            HStack(spacing: 22) {
                 NavigationLink(destination: DuasView()) {
                     itemsSubView(imageName: "DuaUI", textShow: "Dua's")
                 }
@@ -150,6 +147,7 @@ extension ContentView {
             
         }
         .padding()
+        .padding(.horizontal)
         .background(Color.white.opacity(0.8))
         .font(.caption)
         .bold()

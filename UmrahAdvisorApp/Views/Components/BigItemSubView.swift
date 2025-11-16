@@ -38,8 +38,7 @@ struct BigItemSubView: View {
                 .foregroundColor(.gray)
                 .font(.system(size: 15))
         }
-        .padding(.vertical, 12)
-        .padding(.horizontal)
+        .padding(12)
         .background(Color.white.opacity(0.9))
         .foregroundStyle(Color.background)
         .cornerRadius(10)

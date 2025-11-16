@@ -24,7 +24,7 @@ struct itemsSubView: View {
                 .padding(.bottom, 15)
         }
         .foregroundColor(Color.background)
-        .frame(minWidth: 80, maxWidth: 100, minHeight: 100, maxHeight: 130)
+        .frame(minWidth: 80, maxWidth: 120, minHeight: 100, maxHeight: 130)
         .background(Color.white)
         .cornerRadius(10)
         .multilineTextAlignment(.center)
