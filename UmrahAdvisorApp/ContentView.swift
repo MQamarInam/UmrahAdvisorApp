@@ -236,7 +236,7 @@ extension ContentView {
                 .padding()
                 .frame(maxWidth: .infinity)
                 .foregroundStyle(Color.black)
-                .background(Color.white)
+                .background(Color.white.opacity(0.8))
                 .cornerRadius(12)
                 .shadow(color: Color.gray.opacity(0.2), radius: 10, x: 0, y: 5)
             }
