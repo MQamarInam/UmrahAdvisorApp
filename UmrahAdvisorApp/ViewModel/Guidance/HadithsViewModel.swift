@@ -10,47 +10,27 @@ import Foundation
 @MainActor
 class HadithsViewModel: ObservableObject {
     
-    @Published var HadithArray: [Hadith] = []
+    @Published var hadiths: [Hadith] = []
     @Published var isLoading = false
     
-    private let localStorageKey = "SavedHadiths"
+    private let repository: HadithServiceProtocol
     
-    func fetchData() async {
-        
+    init(repository: HadithServiceProtocol = HadithRepository()) {
+        self.repository = repository
+    }
+    
+    func loadHadiths() async {
         isLoading = true
         defer { isLoading = false }
         
-        guard let url = URL(string: "https://apiumrah.vercel.app/hadiths") else {
-            loadHadithsFromLocal()
-            return
-        }
-        
         do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let decoder = try JSONDecoder().decode(HadithsResult.self, from: data)
-            
-            HadithArray = decoder.hadiths
-            saveHadithsLocally(hadiths: decoder.hadiths)
+            let remoteHadiths = try await repository.fetchRemoteHadiths()
+            hadiths = remoteHadiths
+            repository.saveLocal(hadiths: remoteHadiths)
             
         } catch {
             print("Fetching/decoding error: \(error.localizedDescription)")
-            loadHadithsFromLocal()
-        }
-    }
-    
-    private func saveHadithsLocally(hadiths: [Hadith]) {
-        let encoder = JSONEncoder()
-        if let encoded = try? encoder.encode(hadiths) {
-            UserDefaults.standard.set(encoded, forKey: localStorageKey)
-        }
-    }
-    
-    private func loadHadithsFromLocal() {
-        if let savedHadiths = UserDefaults.standard.data(forKey: localStorageKey) {
-            let decoder = JSONDecoder()
-            if let loadedHadiths = try? decoder.decode([Hadith].self, from: savedHadiths) {
-                HadithArray = loadedHadiths
-            }
+            hadiths = repository.loadLocal()
         }
     }
     

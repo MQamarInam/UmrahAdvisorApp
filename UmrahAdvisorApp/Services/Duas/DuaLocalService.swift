@@ -8,6 +8,7 @@
 import Foundation
 
 final class DuaLocalService {
+    
     private let key = "SavedDuas"
 
     func save(_ duas: [Dua]) {
@@ -23,5 +24,6 @@ final class DuaLocalService {
         }
         return decoded
     }
+    
 }
 

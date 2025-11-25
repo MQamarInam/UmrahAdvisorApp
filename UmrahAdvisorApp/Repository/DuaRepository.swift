@@ -12,8 +12,7 @@ final class DuaRepository: DuaServiceProtocol {
     private let remote: DuaRemoteService
     private let local: DuaLocalService
 
-    init(remote: DuaRemoteService = DuaRemoteService(),
-         local: DuaLocalService = DuaLocalService()) {
+    init(remote: DuaRemoteService = DuaRemoteService(), local: DuaLocalService = DuaLocalService()) {
         self.remote = remote
         self.local = local
     }

@@ -9,12 +9,11 @@ import SwiftUI
 
 struct HadithsView: View {
     
-    @StateObject var hadithViewModel = HadithsViewModel()
+    @StateObject var vm = HadithsViewModel()
     
     var body: some View {
         VStack {
-            if hadithViewModel.isLoading {
-                // Display loading indicator
+            if vm.isLoading {
                 VStack {
                     ProgressView()
                         .progressViewStyle(CircularProgressViewStyle())
@@ -26,7 +25,7 @@ struct HadithsView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
                 // Display Hadiths list
-                List(hadithViewModel.HadithArray) { hadith in
+                List(vm.hadiths) { hadith in
                     VStack(alignment: .leading, spacing: 8) {
                         Text(hadith.name)
                             .font(.title2)
@@ -56,7 +55,7 @@ struct HadithsView: View {
             }
         }
         .task {
-            await hadithViewModel.fetchData()
+            await vm.loadHadiths()
         }
         .navigationTitle("Hadiths for Umrah")
     }
