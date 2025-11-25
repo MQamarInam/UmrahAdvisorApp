@@ -8,7 +8,7 @@
 import Foundation
 
 struct Zikr: Identifiable, Codable, Hashable {
-    let id = UUID()
+    var id = UUID()
     var name: String
     var count: Int = 0
 }

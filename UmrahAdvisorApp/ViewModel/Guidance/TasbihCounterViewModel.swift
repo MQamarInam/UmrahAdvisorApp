@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class TasbihCounterViewModel: ObservableObject {
+class TasbihCounterViewModel: TasbihCounterProtocol, ObservableObject {
     
     @Published var zikrs: [Zikr] = [
         Zikr(name: "Subhanallah"),
@@ -20,9 +20,10 @@ class TasbihCounterViewModel: ObservableObject {
     @Published var goal: Int = 100
     @Published var isGoalReached: Bool = false
     
-    private let storageKey = "zikrCounts"
+    private let repository: TasbihRepositoryProtocol
     
-    init() {
+    init(repository: TasbihRepositoryProtocol = TasbihRepository()) {
+        self.repository = repository
         loadCounts()
         checkGoal()
     }
@@ -52,16 +53,11 @@ class TasbihCounterViewModel: ObservableObject {
     }
     
     private func saveCounts() {
-        let dict = Dictionary(uniqueKeysWithValues: zikrs.map { ($0.name, $0.count) })
-        UserDefaults.standard.set(dict, forKey: storageKey)
+        repository.save(zikrs: zikrs)
     }
-    
+        
     private func loadCounts() {
-        if let savedCounts = UserDefaults.standard.dictionary(forKey: storageKey) as? [String: Int] {
-            for i in zikrs.indices {
-                zikrs[i].count = savedCounts[zikrs[i].name, default: 0]
-            }
-        }
+        repository.load(zikrs: &zikrs)
     }
     
 }
