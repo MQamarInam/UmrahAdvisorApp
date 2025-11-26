@@ -12,11 +12,4 @@ struct UmrahStep: Identifiable, Codable {
     let title: String
     let description: [String]
     var isCompleted: Bool = false
-    
-    init(id: UUID = UUID(), title: String, description: [String], isCompleted: Bool = false) {
-            self.id = id
-            self.title = title
-            self.description = description
-            self.isCompleted = isCompleted
-        }
 }
