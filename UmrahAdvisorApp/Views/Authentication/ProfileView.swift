@@ -2,7 +2,7 @@ import SwiftUI
 
 struct ProfileView: View {
     
-    @StateObject var authViewModel: AuthViewModel = AuthViewModel()
+    @StateObject var authViewModel = AuthViewModel()
     @State private var showEditAlert = false
     @State private var showDeleteAlert = false
     @State private var newFullName = ""
@@ -14,26 +14,21 @@ struct ProfileView: View {
         NavigationStack {
             if let user = authViewModel.currentUser {
                 List {
-                    
                     headerSection(user: user)
                     generalSection
-                    bokingsSection
+                    bookingsSection
                     accountSection
-                    
                 }
                 .alert("Confirm Deletion", isPresented: $showDeleteAlert) {
+                    
                     Button("Cancel", role: .cancel) { }
+                    
                     Button("Delete", role: .destructive) {
-                        authViewModel.deleteAccount { success in
-                            if success {
-                                isLoggedOut = true
-                                authViewModel.signOut()
-                                print("Account deleted successfully.")
-                            } else {
-                                print("Failed to delete account.")
-                            }
-                        }
+                        authViewModel.deleteAccount()
+                        isLoggedOut = true
+                        authViewModel.signOut()
                     }
+                    
                 } message: {
                     Text("Are you sure you want to delete your account? This action cannot be undone.")
                 }
@@ -46,7 +41,6 @@ struct ProfileView: View {
         .navigationDestination(isPresented: $isLoggedOut) {
             LoginView()
         }
-
     }
 }
 
@@ -73,7 +67,9 @@ extension ProfileView {
                             .font(.subheadline)
                             .fontWeight(.semibold)
                             .padding(.top, 4)
+                        
                         Spacer()
+                        
                         Image(systemName: "square.and.pencil")
                             .padding(.trailing, 10)
                             .foregroundStyle(Color.background)
@@ -83,16 +79,20 @@ extension ProfileView {
                                 showEditAlert = true
                             }
                     }
+                    
                     Text(user.email)
                         .font(.footnote)
-                        .accentColor(.gray)
+                        .foregroundColor(.gray)
                         .lineLimit(1)
                 }
             }
             .foregroundStyle(Color.anyBlackWhite)
             .alert("Edit Name", isPresented: $showEditAlert) {
+                
                 TextField("Full Name", text: $newFullName)
+                
                 Button("Cancel", role: .cancel) { }
+                
                 Button("Update") {
                     authViewModel.updateUserName(fullName: newFullName) { success in
                         if success {
@@ -102,6 +102,7 @@ extension ProfileView {
                         }
                     }
                 }
+                
             } message: {
                 Text("Enter your new name")
             }
@@ -120,14 +121,12 @@ extension ProfileView {
         }
     }
     
-    private var bokingsSection: some View {
+    private var bookingsSection: some View {
         Section("Bookings") {
-            HStack {
-                NavigationLink {
-                    UserBookingRequestsView()
-                } label: {
-                    SettingRowView(imageName: "gear", title: "Package Bookings", tintColor: .gray)
-                }
+            NavigationLink {
+                UserBookingRequestsView()
+            } label: {
+                SettingRowView(imageName: "suitcase", title: "Package Bookings", tintColor: .gray)
             }
             .foregroundStyle(Color.anyBlackWhite)
         }
@@ -135,9 +134,10 @@ extension ProfileView {
     
     private var accountSection: some View {
         Section("Account") {
+            
             Button {
-                isLoggedOut = true
                 authViewModel.signOut()
+                isLoggedOut = true
             } label: {
                 SettingRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: .red)
             }
@@ -147,22 +147,24 @@ extension ProfileView {
             } label: {
                 SettingRowView(imageName: "xmark.circle.fill", title: "Delete Account", tintColor: .red)
             }
+            
         }
         .foregroundStyle(Color.anyBlackWhite)
     }
-    
 }
 
 struct SettingRowView: View {
     var imageName: String
     var title: String
     let tintColor: Color
+    
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: imageName)
-                .imageScale(.small)
-                .font(.title)
+                .imageScale(.medium)
+                .font(.title3)
                 .foregroundColor(tintColor)
+            
             Text(title)
                 .font(.subheadline)
         }

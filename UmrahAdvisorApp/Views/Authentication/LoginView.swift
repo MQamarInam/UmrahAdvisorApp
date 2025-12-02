@@ -178,6 +178,15 @@ extension LoginView  {
                     .foregroundColor(.red)
                     .font(.caption)
                     .padding()
+
+                if authViewModel.showResendVerificationOption {
+                    Button("Resend Verification Email") {
+                        authViewModel.resendEmailVerification()
+                    }
+                    .padding(.top, 4)
+                    .font(.caption)
+                    .foregroundColor(.blue)
+                }
             }
         }
     }
