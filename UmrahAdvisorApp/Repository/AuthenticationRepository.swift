@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AuthenticationRepository {
+final class AuthenticationRepository: AuthenticationProtocol, UserProtocol {
     
     let authService: AuthenticationProtocol
     let userService: UserProtocol

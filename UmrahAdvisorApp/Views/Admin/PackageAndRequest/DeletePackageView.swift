@@ -39,7 +39,7 @@ struct DeletePackageView: View {
                 .keyboardType(.decimalPad)
             Button("Save") {
                 if let newPriceValue = Double(newPrice), let packageId = package.id {
-                    pvm.updatePackagePrice(packageId: packageId, newPrice: newPriceValue)
+                    pvm.updatePrice(id: packageId, newPrice: newPriceValue)
                 }
             }
             Button("Cancel", role: .cancel) {

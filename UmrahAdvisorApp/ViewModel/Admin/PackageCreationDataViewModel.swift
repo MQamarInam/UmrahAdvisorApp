@@ -162,13 +162,15 @@ class PackageCreationDataViewModel: ObservableObject {
             time: departureTime,
             baggage: departureBaggage
         )
+        
         let arrival = FlightDetail(
             sector: selectedArrivalSector,
             date: arrivalDate,
             time: arrivalTime,
             baggage: arrivalBaggage
         )
-        fm.savePackageData(
+        let package = Packages(
+            id: nil,   // Firestore will create it
             name: name,
             price: priceValue,
             days: dayValue,
@@ -183,20 +185,15 @@ class PackageCreationDataViewModel: ObservableObject {
             flightName: selectedFlightName,
             departure: departure,
             arrival: arrival
-        ) { success in
-            if success {
-                self.showAlert = true
-                self.clearForm()
-            } else {
-                
-            }
-        }
+        )
+        fm.savePackage(package)
+        self.showAlert = true
+        self.clearForm()
     }
     
     func fetchDataFromFirebase() {
         isLoading = true
         
-        // Fetch Makkah Hotels (names only)
         db.collection("MakkahHotels").getDocuments { [weak self] snapshot, error in
             if let error = error {
                 print("Error fetching Makkah hotels: \(error.localizedDescription)")
@@ -205,7 +202,6 @@ class PackageCreationDataViewModel: ObservableObject {
             }
         }
         
-        // Fetch Madinah Hotels (names only)
         db.collection("MadinahHotels").getDocuments { [weak self] snapshot, error in
             if let error = error {
                 print("Error fetching Madinah hotels: \(error.localizedDescription)")
@@ -214,7 +210,6 @@ class PackageCreationDataViewModel: ObservableObject {
             }
         }
         
-        // Fetch Flights (names only)
         db.collection("Flights").getDocuments { [weak self] snapshot, error in
             if let error = error {
                 print("Error fetching flights: \(error.localizedDescription)")

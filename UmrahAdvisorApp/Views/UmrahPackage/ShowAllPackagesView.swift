@@ -29,7 +29,7 @@ struct ShowAllPackagesView: View {
                 PackageDetailView(item: package)
             }
             .onAppear {
-                fm.fetchPackagesData()
+                fm.fetchPackages()
             }
         }
     }
