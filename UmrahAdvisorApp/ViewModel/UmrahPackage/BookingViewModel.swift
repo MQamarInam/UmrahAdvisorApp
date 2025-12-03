@@ -13,88 +13,59 @@ import FirebaseAuth
 class BookingViewModel: ObservableObject {
     
     @Published var bookingRequests: [BookingModel] = []
-    private let db = Firestore.firestore()
+    @Published var isLoading: Bool = false
+    @Published var errorMessage: String?
+    
+    private let repository: BookingProtocol
+    
+    init(repository: BookingProtocol = BookingRepository()) {
+        self.repository = repository
+    }
     
     func saveBookingRequest(package: Packages, totalPrice: Double, numberOfPackages: Int, whatsAppNumber: String, recipients: [RecipientDetail]) {
-        guard let user = Auth.auth().currentUser else {
-            return
-        }
-        let bookingData: [String: Any] = [
-            "userId": user.uid,
-            "userEmail": user.email ?? "No Email",
-            "package": [
-                "name": package.name,
-                "price": package.price,
-                "days": package.days
-            ],
-            "totalPrice": totalPrice,
-            "numberOfPackages": numberOfPackages,
-            "whatsAppNumber": whatsAppNumber,
-            "recipients": recipients.map { recipient in
-                [
-                    "surName": recipient.surName,
-                    "givenName": recipient.givenName,
-                    "passportNumber": recipient.passportNumber,
-                    "dateOfBirth": recipient.dateOfBirth,
-                    "expiryDate": recipient.expiryDate
-                ]
-            }
-        ]
-        db.collection("PackageRequests").addDocument(data: bookingData) { error in
-            if let error = error {
-                print("Failed to create booking: \(error.localizedDescription)")
-            } else {
-                print("Booking successfully created!")
+        isLoading = true
+        repository.saveBookingRequest(package: package, totalPrice: totalPrice, numberOfPackages: numberOfPackages, whatsAppNumber: whatsAppNumber, recipients: recipients) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                switch result {
+                case .success:
+                    print("Booking saved successfully!")
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                    print("Failed to save booking: \(error.localizedDescription)")
+                }
             }
         }
     }
 
     func fetchBookingRequests() {
-        db.collection("PackageRequests").getDocuments { snapshot, error in
-            if let error = error {
-                print("Error fetching booking requests: \(error.localizedDescription)")
-                return
+        isLoading = true
+        repository.fetchBookingRequests { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                switch result {
+                case .success(let bookings):
+                    self?.bookingRequests = bookings
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                    print("Failed to fetch bookings: \(error.localizedDescription)")
+                }
             }
-            self.bookingRequests = snapshot?.documents.compactMap { doc in
-                let data = doc.data()
-                guard
-                    let userId = data["userId"] as? String,
-                    let userEmail = data["userEmail"] as? String,
-                    let package = data["package"] as? [String: Any],
-                    let packageName = package["name"] as? String,
-                    let packagePrice = package["price"] as? Double,
-                    let packageDays = package["days"] as? Int,
-                    let totalPrice = data["totalPrice"] as? Double,
-                    let numberOfPackages = data["numberOfPackages"] as? Int,
-                    let whatsAppNumber = data["whatsAppNumber"] as? String,
-                    let recipients = data["recipients"] as? [[String: Any]]
-                else { return nil }
-                
-                return BookingModel(
-                    id: doc.documentID,
-                    userId: userId,
-                    userEmail: userEmail,
-                    packageName: packageName,
-                    packagePrice: packagePrice,
-                    packageDays: packageDays,
-                    totalPrice: totalPrice,
-                    numberOfPackages: numberOfPackages,
-                    whatsAppNumber: whatsAppNumber,
-                    recipients: recipients
-                )
-            } ?? []
         }
     }
 
     func deleteBookingRequest(at indexSet: IndexSet) {
-        indexSet.forEach { index in
-            let bookingRequest = bookingRequests[index]
-            db.collection("PackageRequests").document(bookingRequest.id).delete { error in
-                if let error = error {
-                    print("Error deleting booking request: \(error.localizedDescription)")
-                } else {
-                    DispatchQueue.main.async {
+        indexSet.forEach { [weak self] index in
+            guard let self = self else { return }
+            let booking = self.bookingRequests[index]
+            repository.deleteBookingRequest(id: booking.id) { result in
+                DispatchQueue.main.async {
+                    switch result {
+                    case .success:
                         self.bookingRequests.remove(at: index)
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                        print("Failed to delete booking: \(error.localizedDescription)")
                     }
                 }
             }
@@ -102,42 +73,19 @@ class BookingViewModel: ObservableObject {
     }
     
     func fetchUserBookingRequests(userId: String) {
-        db.collection("PackageRequests")
-            .whereField("userId", isEqualTo: userId)
-            .getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error fetching user booking requests: \(error.localizedDescription)")
-                    return
+        isLoading = true
+        repository.fetchUserBookingRequests(userId: userId) { [weak self] result in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                switch result {
+                case .success(let bookings):
+                    self?.bookingRequests = bookings
+                case .failure(let error):
+                    self?.errorMessage = error.localizedDescription
+                    print("Failed to fetch user bookings: \(error.localizedDescription)")
                 }
-                self.bookingRequests = snapshot?.documents.compactMap { doc in
-                    let data = doc.data()
-                    guard
-                        let userId = data["userId"] as? String,
-                        let userEmail = data["userEmail"] as? String,
-                        let package = data["package"] as? [String: Any],
-                        let packageName = package["name"] as? String,
-                        let packagePrice = package["price"] as? Double,
-                        let packageDays = package["days"] as? Int,
-                        let totalPrice = data["totalPrice"] as? Double,
-                        let numberOfPackages = data["numberOfPackages"] as? Int,
-                        let whatsAppNumber = data["whatsAppNumber"] as? String,
-                        let recipients = data["recipients"] as? [[String: Any]]
-                    else { return nil }
-                    
-                    return BookingModel(
-                        id: doc.documentID,
-                        userId: userId,
-                        userEmail: userEmail,
-                        packageName: packageName,
-                        packagePrice: packagePrice,
-                        packageDays: packageDays,
-                        totalPrice: totalPrice,
-                        numberOfPackages: numberOfPackages,
-                        whatsAppNumber: whatsAppNumber,
-                        recipients: recipients
-                    )
-                } ?? []
             }
+        }
     }
     
 }
